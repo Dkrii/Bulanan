@@ -43,7 +43,7 @@ export const exportToExcel = (transactions: Transaction[]) => {
 
 export const exportToWord = async (transactions: Transaction[]) => {
     // Helper for table cells
-    const createCell = (text: string, bold = false, align: AlignmentType = AlignmentType.LEFT) => {
+    const createCell = (text: string, bold = false, align: (typeof AlignmentType)[keyof typeof AlignmentType] = AlignmentType.LEFT) => {
         return new TableCell({
             children: [new Paragraph({
                 children: [new TextRun({ text, bold, size: 24 })], // size 24 = 12pt
