@@ -115,10 +115,18 @@ export default function AddTransactionModal({ isOpen, onClose, onSave, initialDa
                                 <input
                                     type="number"
                                     required
-                                    placeholder="0.00"
+                                    placeholder="0"
+                                    min="1"
+                                    step="1"
                                     value={amount}
-                                    onChange={(e) => setAmount(e.target.value)}
-                                    className="w-full pl-9 pr-3 py-2 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none text-slate-900 dark:text-white transition-all"
+                                    onChange={(e) => {
+                                        const val = e.target.value;
+                                        // Allow empty string or integer only
+                                        if (val === '' || /^[0-9]+$/.test(val)) {
+                                            setAmount(val);
+                                        }
+                                    }}
+                                    className="w-full pl-9 pr-3 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none text-gray-900 text-lg font-semibold transition-all"
                                 />
                             </div>
                         </div>

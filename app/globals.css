@@ -2,20 +2,21 @@
 
 @theme {
   --color-primary: #136dec;
-  --color-background-light: #f6f7f8;
-  --color-background-dark: #101822;
+  --color-background-light: #ffffff;
+  --color-background-dark: #ffffff;
   --color-danger: #ef4444;
 }
 
 :root {
-  --background: #f6f7f8;
+  --background: #ffffff;
   --foreground: #101822;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #101822;
-    --foreground: #f6f7f8;
+    /* Enforce light mode for mobile redesign request */
+    --background: #ffffff;
+    --foreground: #101822;
   }
 }
 
@@ -23,4 +24,15 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), sans-serif;
+  overflow-x: hidden;
+}
+
+/* Hide scrollbar for clean horizontal scrolling */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
