@@ -93,19 +93,19 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-20">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-950 pb-20 transition-colors duration-200">
       <Navbar />
 
       <main className="pt-20 px-4 max-w-md mx-auto">
         {/* Sticky Month Selector & Summary */}
-        <div className="sticky top-14 bg-gray-50/95 backdrop-blur-sm z-30 py-2 -mx-4 px-4 border-b border-gray-100/50 mb-4 transition-all">
+        <div className="sticky top-14 bg-gray-50/95 dark:bg-slate-950/95 backdrop-blur-sm z-30 py-2 -mx-4 px-4 border-b border-gray-100/50 dark:border-slate-800/50 mb-4 transition-all">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-xl font-bold text-gray-900">Dashboard</h1>
+            <h1 className="text-xl font-bold text-gray-900 dark:text-gray-50">Dashboard</h1>
             <div className="relative">
               <select
                 value={currentMonth}
                 onChange={handleMonthChange}
-                className="appearance-none bg-white border border-gray-200 text-gray-700 text-sm font-semibold rounded-xl pl-3 pr-8 py-2 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm"
+                className="appearance-none bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 text-gray-700 dark:text-gray-200 text-sm font-semibold rounded-xl pl-3 pr-8 py-2 focus:ring-2 focus:ring-blue-500 outline-none shadow-sm transition-colors"
               >
                 {Array.from({ length: 12 }, (_, i) => (
                   <option key={i} value={i}>
@@ -114,7 +114,7 @@ export default function Home() {
                 ))}
               </select>
               <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none">
-                <span className="material-icons text-gray-400 text-sm">expand_more</span>
+                <span className="material-icons text-gray-400 dark:text-gray-500 text-sm">expand_more</span>
               </div>
             </div>
           </div>
@@ -123,13 +123,13 @@ export default function Home() {
 
           {/* Search Bar */}
           <div className="relative mb-2">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 material-icons text-gray-400 text-lg">search</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 material-icons text-gray-400 dark:text-gray-500 text-lg">search</span>
             <input
               type="text"
               placeholder="Search transactions..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-2.5 text-sm outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400"
+              className="w-full bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-gray-900 dark:text-gray-100 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all placeholder:text-gray-400 dark:placeholder:text-gray-500"
             />
           </div>
         </div>
@@ -137,7 +137,7 @@ export default function Home() {
         {/* Transaction List */}
         {loading ? (
           <div className="flex justify-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 dark:border-blue-500"></div>
           </div>
         ) : (
           <TransactionList
@@ -150,7 +150,7 @@ export default function Home() {
       {/* Floating Action Button (FAB) */}
       <button
         onClick={handleAddClick}
-        className="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 text-white rounded-full shadow-lg shadow-blue-600/30 flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-40"
+        className="fixed bottom-6 right-6 w-14 h-14 bg-blue-600 dark:bg-blue-500 text-white rounded-full shadow-lg shadow-blue-600/30 dark:shadow-blue-500/30 flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-40"
       >
         <span className="material-icons text-2xl">add</span>
       </button>

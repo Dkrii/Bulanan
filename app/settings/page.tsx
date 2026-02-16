@@ -94,25 +94,25 @@ export default function DataManagement() {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50 pb-20">
+        <div className="min-h-screen bg-gray-50 dark:bg-slate-950 pb-20 transition-colors duration-200">
             <Navbar />
             <main className="max-w-3xl mx-auto px-4 pt-24 pb-10 animate-fade-in">
                 <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
-                    <p className="text-gray-500 mt-2 text-sm">Manage your data, export reports, and account settings.</p>
+                    <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-50">Settings</h1>
+                    <p className="text-gray-500 dark:text-gray-400 mt-2 text-sm">Manage your data, export reports, and account settings.</p>
                 </div>
 
                 <div className="space-y-6">
                     {/* Export Section - Improved UI */}
-                    <Card className="border-emerald-100 shadow-sm overflow-hidden">
-                        <CardHeader className="bg-emerald-50/50 border-b border-emerald-100 pb-4">
+                    <Card className="border-emerald-100 dark:border-emerald-900 shadow-sm overflow-hidden bg-white dark:bg-slate-900">
+                        <CardHeader className="bg-emerald-50/50 dark:bg-emerald-900/20 border-b border-emerald-100 dark:border-emerald-900 pb-4">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-emerald-100/80 rounded-lg text-emerald-600">
+                                <div className="p-2 bg-emerald-100/80 dark:bg-emerald-900/50 rounded-lg text-emerald-600 dark:text-emerald-400">
                                     <span className="material-icons">download</span>
                                 </div>
                                 <div>
-                                    <CardTitle className="text-lg text-emerald-950">Export Data</CardTitle>
-                                    <CardDescription className="text-emerald-700/80">
+                                    <CardTitle className="text-lg text-emerald-950 dark:text-emerald-50">Export Data</CardTitle>
+                                    <CardDescription className="text-emerald-700/80 dark:text-emerald-400/80">
                                         Download your complete transaction history.
                                     </CardDescription>
                                 </div>
@@ -124,16 +124,16 @@ export default function DataManagement() {
                                     onClick={handleExportExcel}
                                     variant="outline"
                                     disabled={exportingExcel}
-                                    className="h-auto py-4 flex flex-col items-center justify-center gap-3 border-2 border-dashed border-gray-200 hover:border-emerald-500 hover:bg-emerald-50 transition-all group"
+                                    className="h-auto py-4 flex flex-col items-center justify-center gap-3 border-2 border-dashed border-gray-200 dark:border-slate-700 hover:border-emerald-500 dark:hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all group bg-transparent"
                                 >
                                     {exportingExcel ? (
-                                        <Loader2 className="w-8 h-8 text-emerald-600 animate-spin" />
+                                        <Loader2 className="w-8 h-8 text-emerald-600 dark:text-emerald-500 animate-spin" />
                                     ) : (
-                                        <FileSpreadsheet className="w-8 h-8 text-emerald-600 group-hover:scale-110 transition-transform" />
+                                        <FileSpreadsheet className="w-8 h-8 text-emerald-600 dark:text-emerald-500 group-hover:scale-110 transition-transform" />
                                     )}
                                     <div className="text-center">
-                                        <div className="font-semibold text-gray-900 group-hover:text-emerald-700">Excel Report</div>
-                                        <div className="text-xs text-gray-500 mt-1">.xlsx format</div>
+                                        <div className="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-emerald-700 dark:group-hover:text-emerald-400">Excel Report</div>
+                                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">.xlsx format</div>
                                     </div>
                                 </Button>
 
@@ -141,16 +141,16 @@ export default function DataManagement() {
                                     onClick={handleExportWord}
                                     variant="outline"
                                     disabled={exportingWord}
-                                    className="h-auto py-4 flex flex-col items-center justify-center gap-3 border-2 border-dashed border-gray-200 hover:border-blue-500 hover:bg-blue-50 transition-all group"
+                                    className="h-auto py-4 flex flex-col items-center justify-center gap-3 border-2 border-dashed border-gray-200 dark:border-slate-700 hover:border-blue-500 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-all group bg-transparent"
                                 >
                                     {exportingWord ? (
-                                        <Loader2 className="w-8 h-8 text-blue-600 animate-spin" />
+                                        <Loader2 className="w-8 h-8 text-blue-600 dark:text-blue-500 animate-spin" />
                                     ) : (
-                                        <FileText className="w-8 h-8 text-blue-600 group-hover:scale-110 transition-transform" />
+                                        <FileText className="w-8 h-8 text-blue-600 dark:text-blue-500 group-hover:scale-110 transition-transform" />
                                     )}
                                     <div className="text-center">
-                                        <div className="font-semibold text-gray-900 group-hover:text-blue-700">Word Document</div>
-                                        <div className="text-xs text-gray-500 mt-1">.docx format</div>
+                                        <div className="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400">Word Document</div>
+                                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">.docx format</div>
                                     </div>
                                 </Button>
                             </div>
@@ -158,24 +158,24 @@ export default function DataManagement() {
                     </Card>
 
                     {/* Danger Zone */}
-                    <Card className="border-rose-100 shadow-sm overflow-hidden">
-                        <CardHeader className="bg-rose-50/50 border-b border-rose-100 pb-4">
+                    <Card className="border-rose-100 dark:border-rose-900 shadow-sm overflow-hidden bg-white dark:bg-slate-900">
+                        <CardHeader className="bg-rose-50/50 dark:bg-rose-900/20 border-b border-rose-100 dark:border-rose-900 pb-4">
                             <div className="flex items-center gap-3">
-                                <div className="p-2 bg-rose-100/80 rounded-lg text-rose-600">
+                                <div className="p-2 bg-rose-100/80 dark:bg-rose-900/50 rounded-lg text-rose-600 dark:text-rose-400">
                                     <Trash2 className="w-5 h-5" />
                                 </div>
                                 <div>
-                                    <CardTitle className="text-lg text-rose-950">Danger Zone</CardTitle>
-                                    <CardDescription className="text-rose-700/80">
+                                    <CardTitle className="text-lg text-rose-950 dark:text-rose-50">Danger Zone</CardTitle>
+                                    <CardDescription className="text-rose-700/80 dark:text-rose-400/80">
                                         Irreversible actions. Please proceed with caution.
                                     </CardDescription>
                                 </div>
                             </div>
                         </CardHeader>
                         <CardContent className="pt-6">
-                            <div className="bg-rose-50 border border-rose-100 rounded-lg p-4 mb-4 flex gap-3 items-start">
-                                <AlertTriangle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
-                                <p className="text-sm text-rose-800">
+                            <div className="bg-rose-50 dark:bg-rose-950/30 border border-rose-100 dark:border-rose-900 rounded-lg p-4 mb-4 flex gap-3 items-start">
+                                <AlertTriangle className="w-5 h-5 text-rose-600 dark:text-rose-500 shrink-0 mt-0.5" />
+                                <p className="text-sm text-rose-800 dark:text-rose-300">
                                     <strong>Warning:</strong> Resetting your data will permanently delete all transactions associated with your account. This action cannot be undone.
                                 </p>
                             </div>
