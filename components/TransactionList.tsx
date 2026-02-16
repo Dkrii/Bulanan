@@ -57,7 +57,7 @@ export default function TransactionList({ transactions, onTransactionClick }: Tr
                                     </div>
                                 </div>
                                 <div className="flex flex-col items-end">
-                                    <span className={`text-sm font-bold ${t.type === 'income' ? 'text-emerald-600' : 'text-gray-900'
+                                    <span className={`text-sm font-bold ${t.type === 'income' ? 'text-emerald-600' : 'text-rose-600'
                                         }`}>
                                         {t.type === 'income' ? '+' : ''}{formatMoney(t.amount)}
                                     </span>

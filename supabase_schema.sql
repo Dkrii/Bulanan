@@ -1,45 +1,63 @@
--- Create the transactions table
-create table public.transactions (
-  id uuid default gen_random_uuid() primary key,
-  created_at timestamptz default now(),
-  device_id text not null,
-  date date not null,
-  type text not null check (type in ('income', 'expense')),
-  category text not null,
-  amount numeric not null,
-  note text
+-- Create a table for public profiles (linked to auth.users)
+create table profiles (
+  id uuid references auth.users on delete cascade not null primary key,
+  email text,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
--- Enable Row Level Security (RLS)
-alter table public.transactions enable row level security;
+-- Enable RLS on profiles
+alter table profiles enable row level security;
 
--- Create Policy: Allow anyone with a device_id to Select their own data
-create policy "Allow select based on device_id"
-on public.transactions
-for select
-using (true); 
--- Note: Since this is a public demo without auth, we technically allow reading all. 
--- Ideally we'd filter `device_id = current_setting('my.device_id')` if we sent it in headers,
--- but for this simple localStorage implementation, we just open it up or keep it simple.
--- For a strictly private app, we should use RLS carefully.
--- optimize: Index on device_id for faster lookups
-create index idx_transactions_device_id on public.transactions(device_id);
-create index idx_transactions_date on public.transactions(date);
+-- Create policies for profiles
+create policy "Public profiles are viewable by everyone." on profiles
+  for select using (true);
 
--- Policy: Allow Insert for anyone (public)
-create policy "Allow public insert"
-on public.transactions
-for insert
-with check (true);
+create policy "Users can insert their own profile." on profiles
+  for insert with check (auth.uid() = id);
 
--- Policy: Allow Update based on device_id (In a real app, you'd verify ownership)
-create policy "Allow public update"
-on public.transactions
-for update
-using (true);
+create policy "Users can update own profile." on profiles
+  for update using (auth.uid() = id);
 
--- Policy: Allow Delete
-create policy "Allow public delete"
-on public.transactions
-for delete
-using (true);
+-- Create a table for transactions
+create table transactions (
+  id uuid default gen_random_uuid() primary key,
+  user_id uuid references auth.users not null, -- Linked to Supabase Auth
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  date timestamp with time zone not null,
+  type text check (type in ('income', 'expense')) not null,
+  category text not null,
+  amount numeric not null, -- User requested integer, but numeric covers it safely
+  note text,
+  device_id text -- Keeping for legacy support/migration, nullable
+);
+
+-- Enable RLS on transactions
+alter table transactions enable row level security;
+
+-- Create policies for transactions
+-- Only allow users to see their own transactions
+create policy "Users can view their own transactions" on transactions
+  for select using (auth.uid() = user_id);
+
+-- Only allow users to insert their own transactions
+create policy "Users can insert their own transactions" on transactions
+  for insert with check (auth.uid() = user_id);
+
+-- Only allow users to update their own transactions
+create policy "Users can update their own transactions" on transactions
+  for update using (auth.uid() = user_id);
+
+-- Only allow users to delete their own transactions
+create policy "Users can delete their own transactions" on transactions
+  for delete using (auth.uid() = user_id);
+
+-- Allow claiming orphaned transactions
+create policy "Allow claiming orphaned transactions" on transactions
+  for update
+  using (user_id IS NULL)
+  with check (auth.uid() = user_id); 
+
+-- Also need select permission for orphans to find them
+create policy "Allow viewing orphaned transactions" on transactions
+  for select
+  using (user_id IS NULL);

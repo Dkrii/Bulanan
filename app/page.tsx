@@ -1,5 +1,8 @@
 'use client';
-import { useState } from 'react';
+
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 import Navbar from '@/components/Navbar';
 import SummaryCards from '@/components/SummaryCards';
 import TransactionList from '@/components/TransactionList';
@@ -8,17 +11,33 @@ import TransactionDetailModal from '@/components/TransactionDetailModal';
 import { useTransactions, Transaction } from '@/hooks/useTransactions';
 
 export default function Home() {
+  const { user, loading: authLoading } = useAuth();
+  const router = useRouter();
+
+  // Redirect if not logged in
+  useEffect(() => {
+    if (!authLoading && !user) {
+      router.replace('/login');
+    }
+  }, [user, authLoading, router]);
+
   const {
     transactions,
-    loading,
+    loading: txLoading,
     addTransaction,
     updateTransaction,
     deleteTransaction,
     currentMonth,
     setCurrentMonth,
     currentYear,
-  } = useTransactions();
+  } = useTransactions(user?.id);
 
+  const loading = authLoading || (user && txLoading);
+
+  /* 
+     MOVED HOOKS UP TO FIX "RULES OF HOOKS" VIOLATION 
+     All hooks must be executed in the same order every render.
+  */
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [detailTx, setDetailTx] = useState<Transaction | null>(null);
   const [editingTx, setEditingTx] = useState<Transaction | null>(null);
@@ -29,6 +48,16 @@ export default function Home() {
     t.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (t.note && t.note.toLowerCase().includes(searchQuery.toLowerCase()))
   );
+
+  // Early return ONLY for rendering, after all hooks are called
+  if (authLoading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+
 
   // Open Add Modal
   const handleAddClick = () => {
