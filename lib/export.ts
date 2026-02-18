@@ -23,9 +23,21 @@ export const exportToExcel = (transactions: Transaction[]) => {
         Note: t.note || '-'
     }));
 
+    // 2. Tambahkan baris total pengeluaran
+    const totalExpense = transactions
+        .filter(t => t.type.toUpperCase() === 'EXPENSE')
+        .reduce((sum, t) => sum + t.amount, 0);
+    data.push({
+        Date: '',
+        Type: '',
+        Category: '',
+        Amount: totalExpense,
+        Note: 'Total Pengeluaran'
+    });
+
     const ws = XLSX.utils.json_to_sheet(data);
 
-    // 2. Set Column Widths
+    // 3. Set Column Widths
     const wscols = [
         { wch: 15 }, // Date
         { wch: 10 }, // Type
@@ -35,7 +47,7 @@ export const exportToExcel = (transactions: Transaction[]) => {
     ];
     ws['!cols'] = wscols;
 
-    // 3. Create Workbook
+    // 4. Create Workbook
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Transactions");
     XLSX.writeFile(wb, `finance_tracker_${new Date().toISOString().split('T')[0]}.xlsx`);
@@ -61,6 +73,22 @@ export const exportToWord = async (transactions: Transaction[]) => {
                 createCell(t.category),
                 createCell(formatMoney(t.amount), false, AlignmentType.RIGHT),
                 createCell(t.note || '-'),
+            ],
+        })
+    );
+
+    // Tambahkan baris total pengeluaran
+    const totalExpense = transactions
+        .filter(t => t.type.toUpperCase() === 'EXPENSE')
+        .reduce((sum, t) => sum + t.amount, 0);
+    tableRows.push(
+        new TableRow({
+            children: [
+                createCell(''),
+                createCell(''),
+                createCell(''),
+                createCell(formatMoney(totalExpense), true, AlignmentType.RIGHT),
+                createCell('Total Pengeluaran', true),
             ],
         })
     );
